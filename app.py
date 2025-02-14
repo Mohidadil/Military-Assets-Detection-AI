@@ -44,15 +44,24 @@ st.markdown("""
 # ✅ Load YOLO Model
 @st.cache_resource
 def load_model():
-    model_path = "E:\PROJECT\military_assets_object dection project\yolo11n (5).pt"
-    return YOLO(model_path)
+    MODEL_URL = "https://github.com/mohidadil/Military-Assets-Detection-AI/releases/download/v1.0/yolo11n.pt"
+    MODEL_PATH = "yolo11n.pt"
 
+    # Agar model file nahi mili to download karo
+    import os
+    if not os.path.exists(MODEL_PATH):
+        st.write("📥 Downloading YOLO Model...")
+        os.system(f"wget {MODEL_URL} -O {MODEL_PATH}")
+
+    return YOLO(MODEL_PATH)  # ✅ Return statement function ke andar hai
+
+# Load Model
 model = load_model()
 
 # Define Class Labels & Colors
 class_labels = ['camouflage_soldier', 'weapon', 'military_tank', 'military_truck', 'military_vehicle', 'civilian', 'soldier', 'civilian_vehicle', 'military_artillery', 'trench', 'military_aircraft', 'military_warship']
 class_colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#800000', '#808000', '#008000', '#800080', '#008080', '#000080']
-  # Black-Golden Gradient
+
 # Main App
 st.title("🪖 Military Assets Detection AI")
 st.subheader("Upload an image to detect military and civilian assets")
